@@ -4,6 +4,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/streaming'
+require 'sinatra/config_file'
 require 'slim'
 require 'sass'
 require 'pathname'
@@ -14,23 +15,14 @@ require 'pry'
 
 configure {
   set :server, :puma
-  set :bind, '0.0.0.0'
 }
 
-###
-# Pre requirements:
-# - Video Contact Sheet (vcs)
-#   https://p.outlyer.net/vcs/
-#
-# - VLC Web Browser Plugin (Safari)
-#   http://www.videolan.org/vlc/download-macosx.ja.html
-
-
-ROOT = Pathname('/Volumes/home/share2/Movie')
+config_file 'config.yml'
 
 before do
   ua = request.user_agent
   @android = ua.match(/android/i) ? true : false
+  @video_root = Pathname(settings.video_root)
 end
 
 get '/stylesheets/main.css' do
@@ -43,13 +35,14 @@ end
 
 get '/dir/*' do |path|
   @relative_dir_path = decode_path(path)
-  @current_dir = ROOT + @relative_dir_path
+  @current_dir = @video_root + @relative_dir_path
   slim :index
 end
 
 get '/thumbnail/*' do |path|
   relative_video_file_path = decode_path(path)
   content_type 'image/jpeg'
+  p thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
   send_file thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
 end
 
@@ -60,7 +53,7 @@ end
 
 get '/video-file/*' do |path|
   relative_video_path = decode_path(path)
-  video_path = ROOT + relative_video_path
+  video_path = @video_root + relative_video_path
   http_headers = request.env.select { |k, v| k.start_with?('HTTP_')}
   mimetype = `file -Ib "#{video_path}"`.gsub(/\n/,"")
   send_file(video_path,
@@ -87,7 +80,7 @@ helpers do
   end
 
   def sub_dir_thumbnail_url(relative_dir_path, sub_dir_name)
-    sub_dir_path = ROOT + relative_dir_path + sub_dir_name
+    sub_dir_path = @video_root + relative_dir_path + sub_dir_name
     sub_dir_path.children.sort.each do |child|
       if is_video(child)
         return thumbnail_url(relative_dir_path + sub_dir_name, child.basename)
@@ -97,7 +90,7 @@ helpers do
   end
 
   def child_count(relative_dir_path)
-    (ROOT + relative_dir_path).children.select {|child|
+    (@video_root + relative_dir_path).children.select {|child|
       unless child.basename.to_s.match(/^\./)
         if child.directory? || is_video(child)
           next true
@@ -126,7 +119,7 @@ def decode_path(encoded_path)
 end
 
 def generate_thumbnails_in_dir(relative_path, force=false, recursive=false)
-  current_dir = ROOT + relative_path
+  current_dir = @video_root + relative_path
   current_dir.each_child do |child|
     if child.file?
       if is_video(child)

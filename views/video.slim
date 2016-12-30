@@ -2,10 +2,8 @@ doctype html
 html
   head
     title #{@relative_video_path.basename}
-    script src="/mediaelement/jquery.js"
-    script src="/mediaelement/mediaelement-and-player.min.js"
-    link rel="stylesheet" href="/mediaelement/mediaelementplayer.css"
     link rel="stylesheet" href="/stylesheets/main.css"
+    script src="/javascripts/video.js"
   body
     embed { type="application/x-vlc-plugin"
             pluginspage="http://www.videolan.org"
@@ -15,5 +13,4 @@ html
             id="vlc"
             target="#{ video_file_url(@relative_video_path) }" }
     javascript:
-      var vlc = document.getElementById('vlc');
-      //vlc.input.time = 120 * 1000;
+      main();
