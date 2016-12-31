@@ -26,7 +26,7 @@ configure {
 #   http://www.videolan.org/vlc/download-macosx.ja.html
 
 
-ROOT = Pathname('/Volumes/home/share2/Movie')
+ROOT = Pathname('/home/kambara/share2-movie/movie')
 
 before do
   ua = request.user_agent
