@@ -1,2 +1,4 @@
 video_root: /path/to/video/root
 descending: false
+title: Video Browser
+image_offset_top: -19

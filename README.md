@@ -14,15 +14,27 @@ Video Contact Sheet (vcs):
 ## Install
 
 rbenv:
+
     rbenv install 2.4.0
     rbenv local 2.4.0
 
 video-browser:
+
     cd video-browser
     gem install bundler
     rbenv rehash
     bundle install
 
-## Start
+## Usage
 
     ruby main.rb -e production
+
+## Todo
+
+- mp4はvideoタグ
+- ファイル名検索
+- ソート方法切り替え
+- 指定時間から再生
+- サムネイル指定で再生
+- サムネイル数変更
+- サムネイルキューイング

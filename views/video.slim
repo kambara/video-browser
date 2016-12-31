@@ -5,12 +5,19 @@ html
     link rel="stylesheet" href="/stylesheets/main.css"
     script src="/javascripts/video.js"
   body
-    embed { type="application/x-vlc-plugin"
-            pluginspage="http://www.videolan.org"
-            width="100%"
-            height="100%"
-            style="position: absolute; height: 100%;"
-            id="vlc"
-            target="#{ video_file_url(@relative_video_path) }" }
+    - if @relative_video_path.extname == '.mp4'
+      .video-container
+        video { src="#{ video_file_url(@relative_video_path) }"
+                controls="1"
+                autoplay="1"
+              }
+    - else
+      embed { type="application/x-vlc-plugin"
+              pluginspage="http://www.videolan.org"
+              width="100%"
+              height="100%"
+              style="position: absolute; height: 100%;"
+              id="vlc"
+              target="#{ video_file_url(@relative_video_path) }" }
     javascript:
       main();

@@ -24,6 +24,7 @@ before do
   @android = ua.match(/android/i) ? true : false
   @video_root = Pathname(settings.video_root)
   @descending = settings.descending || false
+  @title = settings.title || 'Video Browser'
 end
 
 get '/stylesheets/main.css' do
@@ -35,6 +36,9 @@ get '/' do
 end
 
 get '/dir/*' do |path|
+
+  @image_offset_top = settings.image_offset_top
+  puts @image_offset_top
   @relative_dir_path = decode_path(path)
   current_dir = @video_root + @relative_dir_path
   @children = current_dir.children.sort

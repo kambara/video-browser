@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title VIDEOS
+    title #{@title}
     link rel="stylesheet" href="/stylesheets/main.css"
   body
     nav.clearfix
@@ -29,7 +29,7 @@ html
     main
       h1
         - if @relative_dir_path.to_s == ''
-          | VIDEOS
+          | #{@title}
         - else
           | #{@relative_dir_path.basename}
       ul
@@ -45,7 +45,7 @@ html
                     | #{child_count(@relative_dir_path + path.basename)}
                     | )
                   .image-frame
-                    img src="#{ sub_dir_thumbnail_url(@relative_dir_path, path.basename) }"
+                    img src="#{ sub_dir_thumbnail_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
             - elsif is_video(path)
               li
                 a href="#{ if @android
@@ -57,6 +57,6 @@ html
                   span.icon &#x1F39E;
                   | #{path.basename}
                   .image-frame
-                    img src="#{ thumbnail_url(@relative_dir_path, path.basename) }"
+                    img src="#{ thumbnail_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
                     
               
