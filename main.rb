@@ -19,6 +19,15 @@ configure {
 
 config_file 'config.yml'
 
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  pp defined?(settings.username)
+  if defined?(settings.username) && defined?(settings.password)
+    (username == settings.username and password == settings.password)
+  else
+    true
+  end
+end
+
 before do
   ua = request.user_agent
   @android = ua.match(/android/i) ? true : false
