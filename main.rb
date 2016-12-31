@@ -23,6 +23,7 @@ before do
   ua = request.user_agent
   @android = ua.match(/android/i) ? true : false
   @video_root = Pathname(settings.video_root)
+  @descending = settings.descending || false
 end
 
 get '/stylesheets/main.css' do
@@ -35,14 +36,17 @@ end
 
 get '/dir/*' do |path|
   @relative_dir_path = decode_path(path)
-  @current_dir = @video_root + @relative_dir_path
+  current_dir = @video_root + @relative_dir_path
+  @children = current_dir.children.sort
+  if @descending
+    @children.reverse!
+  end
   slim :index
 end
 
 get '/thumbnail/*' do |path|
   relative_video_file_path = decode_path(path)
   content_type 'image/jpeg'
-  p thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
   send_file thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
 end
 
@@ -111,68 +115,68 @@ helpers do
   def video_file_url(relative_video_path)
     "/video-file/#{URI.encode_www_form_component( relative_video_path.to_s )}"
   end
-end
 
-def decode_path(encoded_path)
-  path = URI.decode_www_form_component(encoded_path)
-  Pathname(path)
-end
+  def decode_path(encoded_path)
+    path = URI.decode_www_form_component(encoded_path)
+    Pathname(path)
+  end
 
-def generate_thumbnails_in_dir(relative_path, force=false, recursive=false)
-  current_dir = @video_root + relative_path
-  current_dir.each_child do |child|
-    if child.file?
-      if is_video(child)
-        generate_thumbnail(child, relative_path, force)
+  def generate_thumbnails_in_dir(relative_path, force=false, recursive=false)
+    current_dir = @video_root + relative_path
+    current_dir.each_child do |child|
+      if child.file?
+        if is_video(child)
+          generate_thumbnail(child, relative_path, force)
+        end
+      elsif recursive
+        generate_thumbnails_in_dir(relative_path + child.basename, force, recursive)
       end
-    elsif recursive
-      generate_thumbnails_in_dir(relative_path + child.basename, force, recursive)
     end
   end
-end
 
-def is_video(path)
-  if (path.file? &&
-      !path.basename.to_s.match(/^\./) &&
-      path.extname.match(/\.(mp4|mkv|m4v|avi|wmv|mpg|mpeg)/i))
-    true
-  else
-    false
-  end
-end
-
-def generate_thumbnail(video_file_path, relative_dir_path, force=false)
-  thumb_path = thumbnail_path(relative_dir_path, video_file_path.basename.to_s)
-  if thumb_path.exist?
-    if force
-      FileUtils.rm_rf(thumb_path)
+  def is_video(path)
+    if (path.file? &&
+        !path.basename.to_s.match(/^\./) &&
+        path.extname.match(/\.(mp4|mkv|m4v|avi|wmv|mpg|mpeg)/i))
+      true
     else
-      return
+      false
     end
   end
-  thumb_path.parent.mkpath
-  system <<EOS
-    vcs \
-      --numcaps=14 \
-      --columns=7 \
-      --height=100 \
-      --jpeg \
-      --anonymous \
-      --disable padding \
-      --disable shadows \
-      --override 'bg_heading=white' \
-      --override 'bg_sign=white' \
-      --override 'fg_heading=#cccccc' \
-      --override 'fg_sign=white' \
-      --override 'nonlatin_filenames=1' \
-      --output="#{ thumb_path.to_s }" \
-      "#{ video_file_path.to_s }"
-EOS
-end
 
-def thumbnail_path(relative_dir_path, video_file_name)
-  Pathname(settings.root) +
-    'data/thumbnails' +
-    relative_dir_path +
-    "#{video_file_name}.jpg"
+  def generate_thumbnail(video_file_path, relative_dir_path, force=false)
+    thumb_path = thumbnail_path(relative_dir_path, video_file_path.basename.to_s)
+    if thumb_path.exist?
+      if force
+        FileUtils.rm_rf(thumb_path)
+      else
+        return
+      end
+    end
+    thumb_path.parent.mkpath
+    system <<-EOS
+      vcs \
+        --numcaps=14 \
+        --columns=7 \
+        --height=100 \
+        --jpeg \
+        --anonymous \
+        --disable padding \
+        --disable shadows \
+        --override 'bg_heading=white' \
+        --override 'bg_sign=white' \
+        --override 'fg_heading=#cccccc' \
+        --override 'fg_sign=white' \
+        --override 'nonlatin_filenames=1' \
+        --output="#{ thumb_path.to_s }" \
+        "#{ video_file_path.to_s }"
+    EOS
+  end
+
+  def thumbnail_path(relative_dir_path, video_file_name)
+    Pathname(settings.root) +
+      'data/thumbnails' +
+      relative_dir_path +
+      "#{video_file_name}.jpg"
+  end
 end

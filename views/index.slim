@@ -31,23 +31,22 @@ html
         - if @relative_dir_path.to_s == ''
           | VIDEOS
         - else
-          | #{@current_dir.basename}
+          | #{@relative_dir_path.basename}
       ul
-        - @current_dir.children.sort.each do |path|
+        - @children.each do |path|
           - if !path.basename.to_s.match /^\./
             - if path.directory?
-              - if path.basename.to_s != 'Thumbnailer'
-                li.directory
-                  a href="#{ dir_url(@relative_dir_path + path.basename) }"
-                    span.icon &#x1F4C2;
-                    | #{path.basename}
-                    span.count
-                      | (
-                      | #{child_count(@relative_dir_path + path.basename)}
-                      | )
-                    .image-frame
-                      img src="#{ sub_dir_thumbnail_url(@relative_dir_path, path.basename) }"
-            - elsif !path.basename.to_s.match(/\.(html|jpg|jpeg|iso)$/)
+              li.directory
+                a href="#{ dir_url(@relative_dir_path + path.basename) }"
+                  span.icon &#x1F4C2;
+                  | #{path.basename}
+                  span.count
+                    | (
+                    | #{child_count(@relative_dir_path + path.basename)}
+                    | )
+                  .image-frame
+                    img src="#{ sub_dir_thumbnail_url(@relative_dir_path, path.basename) }"
+            - elsif is_video(path)
               li
                 a href="#{ if @android
                              "intent:http://#{request.host}:#{env['SERVER_PORT']}#{ video_file_url(@relative_dir_path + path.basename) }#Intent;type=video/*;end;"

@@ -14,7 +14,7 @@ Video Contact Sheet (vcs):
 ## Install
 
 rbenv:
-    rbenv install ruby-2.4.0
+    rbenv install 2.4.0
     rbenv local 2.4.0
 
 video-browser:
