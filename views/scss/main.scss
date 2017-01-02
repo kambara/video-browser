@@ -43,18 +43,19 @@ nav {
 		margin-right: 14px;
 	}
 
-  .top {
+  .back {
     font-size: 110%;
     margin: 0;
     padding: 10px 20px;
     line-height: 100%;
-		color: #333;
+		visibility: hidden;
   }
 
-	a.top {
+	a.back {
 		margin: 0;
 		color: white;
 		display: inline-block;
+		visibility: visible;
 
 		&:hover {
 	    color: white;

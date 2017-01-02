@@ -19,15 +19,6 @@ configure {
 
 config_file 'config.yml'
 
-use Rack::Auth::Basic, "Restricted Area" do |username, password|
-  pp defined?(settings.username)
-  if defined?(settings.username) && defined?(settings.password)
-    (username == settings.username and password == settings.password)
-  else
-    true
-  end
-end
-
 before do
   ua = request.user_agent
   @android = ua.match(/android/i) ? true : false
@@ -41,13 +32,16 @@ get '/stylesheets/main.css' do
 end
 
 get '/' do
-  redirect to('/dir/')
+  render_index('')
 end
 
 get '/dir/*' do |path|
+  render_index(path)
+end
 
+def render_index(path)
+  protected!
   @image_offset_top = settings.image_offset_top
-  puts @image_offset_top
   @relative_dir_path = decode_path(path)
   current_dir = @video_root + @relative_dir_path
   @children = current_dir.children.sort
@@ -88,8 +82,27 @@ post '/generate-thumbnails/*' do |path|
 end
 
 helpers do
+  def protected!
+    return if (!defined?(settings.username) || !defined?(settings.password))
+    return if authorized?
+    headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+    halt 401, "Not authorized\n"
+  end
+
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? and
+      @auth.basic? and
+      @auth.credentials and
+      @auth.credentials == [settings.username, settings.password]
+  end
+
   def dir_url(dir_path)
-    "/dir/#{URI.encode_www_form_component( dir_path.to_s )}"
+    if dir_path.to_s == '.'
+      '/'
+    else
+      "/dir/#{URI.encode_www_form_component( dir_path.to_s )}"
+    end
   end
 
   def thumbnail_url(relative_dir_path, video_file_name)

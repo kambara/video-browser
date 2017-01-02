@@ -6,7 +6,6 @@ html
   body
     nav.clearfix
       .right
-        
         form method="post" action="#{ generate_thumbnails_url(@relative_dir_path) }"
           button type="submit"
             | Generate Thumbnails
@@ -17,10 +16,9 @@ html
           button type="submit" name="recursive" value="1"
             | Recursive
       - if @relative_dir_path.to_s == ''
-        .top
-          | TOP
+        .back TOP
       - else
-        a.top href="#{ dir_url(@relative_dir_path.parent) }"
+        a.back href="#{ dir_url(@relative_dir_path.parent) }"
           span.arrow &lang;
           - if @relative_dir_path.parent.to_s == '.'
             | TOP
