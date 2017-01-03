@@ -101,11 +101,11 @@ helpers do
     end
   end
 
-  def thumbnails_url(relative_dir_path, video_file_name)
+  def thumbnail_url(relative_dir_path, video_file_name)
     "/thumbnails/#{ URI.encode_www_form_component( relative_dir_path + video_file_name ) }.jpg"
   end
 
-  def sub_dir_thumbnails_url(relative_dir_path, sub_dir_name)
+  def sub_dir_thumbnail_url(relative_dir_path, sub_dir_name)
     sub_dir_path = @video_root + relative_dir_path + sub_dir_name
     sub_dir_path.children.sort.each do |child|
       if is_video(child)
@@ -126,12 +126,12 @@ helpers do
     }.length
   end
 
-  def generate_thumbnails_url(dir_path)
+  def generate_thumbnail_url(dir_path)
     "/generate-thumbnails/#{URI.encode_www_form_component( dir_path.to_s )}"
   end
 
   def video_page_url(relative_video_path)
-    "/video/#{URI.encode_www_form_component( relative_video_path.to_s )}"
+    "/videos/#{URI.encode_www_form_component( relative_video_path.to_s )}"
   end
 
   def video_file_url(relative_video_path)

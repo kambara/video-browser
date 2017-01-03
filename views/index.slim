@@ -6,13 +6,13 @@ html
   body
     nav.clearfix
       .right
-        form method="post" action="#{ generate_thumbnails_url(@relative_dir_path) }"
+        form method="post" action="#{ generate_thumbnail_url(@relative_dir_path) }"
           button type="submit"
             | Generate Thumbnails
-        form method="post" action="#{ generate_thumbnails_url(@relative_dir_path) }"
+        form method="post" action="#{ generate_thumbnail_url(@relative_dir_path) }"
           button type="submit" name="force" value="1"
             | Force
-        form method="post" action="#{ generate_thumbnails_url(@relative_dir_path) }"
+        form method="post" action="#{ generate_thumbnail_url(@relative_dir_path) }"
           button type="submit" name="recursive" value="1"
             | Recursive
       - if @relative_dir_path.to_s == ''
@@ -43,7 +43,7 @@ html
                     | #{child_count(@relative_dir_path + path.basename)}
                     | )
                   .image-frame
-                    img src="#{ sub_dir_thumbnails_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
+                    img src="#{ sub_dir_thumbnail_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
             - elsif is_video(path)
               li
                 a href="#{ if @android
@@ -55,6 +55,6 @@ html
                   span.icon &#x1F39E;
                   | #{path.basename}
                   .image-frame
-                    img src="#{ thumbnails_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
+                    img src="#{ thumbnail_url(@relative_dir_path, path.basename) }" style="margin-top: #{@image_offset_top}px;"
                     
               
