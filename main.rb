@@ -28,14 +28,14 @@ get '/stylesheets/main.css' do
 end
 
 get '/' do
-  render_index('')
+  render_video_list('')
 end
 
 get '/list/*' do |path|
-  render_index(path)
+  render_video_list(path)
 end
 
-def render_index(path)
+def render_video_list(path)
   protected!
   @image_offset_top = settings.image_offset_top
   @relative_dir_path = decode_path(path)
