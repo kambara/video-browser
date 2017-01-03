@@ -18,7 +18,7 @@ html
       - if @relative_dir_path.to_s == ''
         .back TOP
       - else
-        a.back href="#{ dir_url(@relative_dir_path.parent) }"
+        a.back href="#{ video_list_url(@relative_dir_path.parent) }"
           span.arrow &lang;
           - if @relative_dir_path.parent.to_s == '.'
             | TOP
@@ -35,7 +35,7 @@ html
           - if !path.basename.to_s.match /^\./
             - if path.directory?
               li.directory
-                a href="#{ dir_url(@relative_dir_path + path.basename) }"
+                a href="#{ video_list_url(@relative_dir_path + path.basename) }"
                   span.icon &#x1F4C2;
                   | #{path.basename}
                   span.count
