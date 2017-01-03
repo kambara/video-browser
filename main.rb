@@ -13,11 +13,7 @@ require 'uri'
 require 'pp'
 require 'pry'
 
-configure {
-  set :server, :puma
-}
-
-config_file 'config.yml'
+config_file 'settings.yml'
 
 before do
   ua = request.user_agent

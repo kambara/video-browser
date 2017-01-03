@@ -1,4 +1,8 @@
 .DS_Store
 .sass-cache
+/settings.yml
 /data
-/config.yml
+/log/*
+/tmp/*
+!/tmp/puma
+/tmp/puma/*

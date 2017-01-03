@@ -9,7 +9,7 @@
 Video Contact Sheet (vcs):
 
     sudo aptitude install imagemagick mplayer ffmpeg
-    sudo dpkg -i vcs.***.deb
+    sudo dpkg -i vcs.xxx.deb
 
 ## Install
 
@@ -28,6 +28,8 @@ video-browser:
 ## Usage
 
     ruby main.rb -e production
+
+    bundle exec puma --config config/puma.rb
 
 ## Todo
 
