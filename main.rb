@@ -31,7 +31,7 @@ get '/' do
   render_index('')
 end
 
-get '/dir/*' do |path|
+get '/list/*' do |path|
   render_index(path)
 end
 
@@ -47,13 +47,13 @@ def render_index(path)
   slim :index
 end
 
-get '/thumbnail/*' do |path|
+get '/thumbnails/*' do |path|
   relative_video_file_path = decode_path(path)
   content_type 'image/jpeg'
   send_file thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
 end
 
-get '/video/*' do |path|
+get '/videos/*' do |path|
   @relative_video_path = decode_path(path)
   slim :video
 end
@@ -74,7 +74,7 @@ post '/generate-thumbnails/*' do |path|
   recursive = params['recursive'] ? true : false
   relative_path = decode_path(path)
   generate_thumbnails_in_dir(relative_path, force, recursive)
-  redirect dir_url(path)
+  redirect video_list_url(path)
 end
 
 helpers do
@@ -93,16 +93,16 @@ helpers do
       @auth.credentials == [settings.username, settings.password]
   end
 
-  def dir_url(dir_path)
+  def video_list_url(dir_path)
     if dir_path.to_s == '.'
       '/'
     else
-      "/dir/#{URI.encode_www_form_component( dir_path.to_s )}"
+      "/list/#{URI.encode_www_form_component( dir_path.to_s )}"
     end
   end
 
-  def thumbnail_url(relative_dir_path, video_file_name)
-    "/thumbnail/#{ URI.encode_www_form_component( relative_dir_path + video_file_name ) }"
+  def thumbnails_url(relative_dir_path, video_file_name)
+    "/thumbnails/#{ URI.encode_www_form_component( relative_dir_path + video_file_name ) }"
   end
 
   def sub_dir_thumbnail_url(relative_dir_path, sub_dir_name)
