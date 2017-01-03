@@ -47,7 +47,7 @@ def render_index(path)
   slim :index
 end
 
-get '/thumbnails/*' do |path|
+get '/thumbnails/*.jpg' do |path|
   relative_video_file_path = decode_path(path)
   content_type 'image/jpeg'
   send_file thumbnail_path(relative_video_file_path.parent, relative_video_file_path.basename)
@@ -102,10 +102,10 @@ helpers do
   end
 
   def thumbnails_url(relative_dir_path, video_file_name)
-    "/thumbnails/#{ URI.encode_www_form_component( relative_dir_path + video_file_name ) }"
+    "/thumbnails/#{ URI.encode_www_form_component( relative_dir_path + video_file_name ) }.jpg"
   end
 
-  def sub_dir_thumbnail_url(relative_dir_path, sub_dir_name)
+  def sub_dir_thumbnails_url(relative_dir_path, sub_dir_name)
     sub_dir_path = @video_root + relative_dir_path + sub_dir_name
     sub_dir_path.children.sort.each do |child|
       if is_video(child)
