@@ -6,7 +6,7 @@
 - [Video Contact Sheet (vcs)](https://p.outlyer.net/vcs/)
 - [VLC Web Browser Plugin (Safari)](http://www.videolan.org/vlc/download-macosx.ja.html)
 
-Video Contact Sheet (vcs):
+Install Video Contact Sheet (vcs):
 
     sudo aptitude install imagemagick mplayer ffmpeg
     sudo dpkg -i vcs.xxx.deb
@@ -16,7 +16,6 @@ Video Contact Sheet (vcs):
 rbenv:
 
     rbenv install 2.4.0
-    rbenv local 2.4.0
 
 video-browser:
 
@@ -27,7 +26,11 @@ video-browser:
 
 ## Usage
 
-    ruby main.rb -e production
+development:
+
+    bundle exec puma --port 8080
+
+production:
 
     bundle exec puma --config config/puma.rb
 
