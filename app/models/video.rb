@@ -37,7 +37,7 @@ class Video < Entry
   end
 
   def mimetype
-    `file -Ib "#{absolute_path}"`.gsub(/\n/,"")
+    `file -b --mime-type "#{absolute_path}"`.gsub(/\n/,"")
   end
 
   def mp4?
