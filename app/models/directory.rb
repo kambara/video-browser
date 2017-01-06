@@ -51,7 +51,6 @@ class Directory < Entry
       if entry.class == Video
         entry.create_thumbnail(force)
       elsif entry.class == Directory
-        binding.pry
         if recursive
           entry.create_thumbnails(force, recursive)
         end
