@@ -16,6 +16,10 @@ html
       .thumbnails-container
         - @video.thumbnail_list.to_a.each do |thumbnail|
           a href="#{
-            android? ? intent(@video.file_url) : @video.page_url(thumbnail.time)
+            if android?
+              @video.intent_uri(env['HTTP_HOST'], thumbnail.time)
+            else
+              @video.page_url(thumbnail.time)
+            end
           }"
             img src="#{ thumbnail.url }"

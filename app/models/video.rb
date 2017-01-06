@@ -19,6 +19,23 @@ class Video < Entry
     "/video-scenes/#{URI.encode_www_form_component( @relative_path.to_s )}"
   end
 
+  def intent_uri(host, time=0)
+    [
+      'intent://',
+      host,
+      file_url,
+      '#',
+      [
+        'Intent',
+        'action=android.intent.action.VIEW',
+        'scheme=http',
+        'type=video/*',
+        "i.position=#{ time * 1000 }",
+        'end'
+      ].join(';')
+    ].join
+  end
+
   def mimetype
     `file -Ib "#{absolute_path}"`.gsub(/\n/,"")
   end
