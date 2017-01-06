@@ -92,11 +92,26 @@ class Application < Sinatra::Base
     end
 
     def android?
-      request.user_agent =~ /android/i ? true : false
+      request.user_agent.downcase.index('android') ? true : false
     end
 
     def intent(path)
-      "intent:http://#{env['HTTP_HOST']}#{path}#Intent;type=video/*;end;"
+      [
+        'intent://',
+        env['HTTP_HOST'],
+        path,
+        '#',
+        [
+          'Intent',
+          'action=android.intent.action.VIEW',
+          'scheme=http',
+          'type=video/*',
+          'package=com.mxtech.videoplayer.ad',
+          # 'B.from_start=false',
+          'i.position=500',
+          'end'
+        ].join(';')
+      ].join
     end
   end
 end

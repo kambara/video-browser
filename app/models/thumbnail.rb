@@ -40,13 +40,15 @@ class ThumbnailList
       end
     end
     directory.mkpath
+    ## Max 6 hours
+    ## Todo: Check length
+    max_number = 6 * 60 * 60 * (60 / Application.settings.thumbnail_interval)
     number = 0
     while true
       thumbnail = Thumbnail.new(@video_key, number)
       thumbnail.create(video_path)
-      unless thumbnail.absolute_path.exist?
-        break
-      end
+      break unless thumbnail.absolute_path.exist?
+      break if number > max_number
       number += 1
     end
   end

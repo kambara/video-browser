@@ -49,7 +49,7 @@ html
           - else
             - video = entry
             li
-              a href="#{ @android ? intent(video.file_url) : video.scenes_page_url }"
+              a href="#{ video.scenes_page_url }"
                 span.icon &#x1F39E;
                 | #{video.basename}
                 .thumbnails-container

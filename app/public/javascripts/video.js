@@ -1,17 +1,9 @@
 function main() {
   if ($('#player').length > 0) {
     initVideoPlayer();
-  } else if (getVlcPlayer() && !isChrome()) {
+  } else if ($('#vlc').length > 0 && !isChrome()) {
     initVlcPlayer();
   }
-}
-
-function isChrome() {
-  var ua = window.navigator.userAgent.toLowerCase();
-  if (ua.indexOf('chrome') >= 0) {
-    return true;
-  }
-  return false;
 }
 
 function initVideoPlayer() {
@@ -38,6 +30,14 @@ function initVlcPlayer() {
     return;
   }
   vlc.input.time = getStartTime() * 1000;
+}
+
+function isChrome() {
+  var ua = window.navigator.userAgent.toLowerCase();
+  if (ua.indexOf('chrome') >= 0) {
+    return true;
+  }
+  return false;
 }
 
 function getStartTime() {
