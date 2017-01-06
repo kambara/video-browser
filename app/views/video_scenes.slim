@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title #{@video.basename}
+    link rel="stylesheet" href="/stylesheets/main.css"
+  body
+    nav.clearfix
+      a.back href="#{ @video.parent_directory.url }"
+        span.arrow &lang;
+        - if @video.parent_directory.root?
+          | TOP
+        - else
+          | #{ @video.parent_directory.basename }
+    main.video-scenes
+      h1 #{ @video.basename }
+      .thumbnails-container
+        - @video.thumbnail_list.to_a.each do |thumbnail|
+          a href="#{ @video.page_url(thumbnail.time) }"
+            img src="#{ thumbnail.url }"
