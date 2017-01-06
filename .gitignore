@@ -1,6 +1,6 @@
 .DS_Store
 .sass-cache
-/settings.yml
+/config/settings.yml
 /data
 /log/*
 /tmp/*
