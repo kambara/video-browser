@@ -25,20 +25,41 @@ nav {
     form {
       display: inline-block;
       margin-left: 8px;
+			$height: 40px;
 
       button {
-        padding: 10px 20px;
-        background-color: #7686a5;
-        color: white;
+				height: $height;
+				line-height: $height;
+				padding: 0 16px;
+        background-color: #505050;
+        color: #A0A0A0;
         font-size: 100%;
         border: none;
         border-radius: 3px;
+				font-size: 90%;
 
         &:hover {
           background-color: #449aec;
           cursor: pointer;
+					color: white;
         }
       }
+
+			input[type="text"] {
+				position: relative;
+				top: 0px;
+				height: $height;
+				width: 140px;
+				padding: 0 10px;
+        border: none;
+        border-radius: 3px;
+				box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset;
+				font-size: 90%;
+
+				&:focus {
+					width: 280px;
+				}
+			}
     }
   }
 

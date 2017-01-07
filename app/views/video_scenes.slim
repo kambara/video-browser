@@ -11,9 +11,10 @@ html
         - if @video.parent_directory.root?
           | TOP
         - else
-          | #{ @video.parent_directory.basename }
+          = @video.parent_directory.basename
     main.video-scenes
-      h1 #{ @video.basename }
+      h1 
+        = @video.basename
       a.play-button href="#{ video_page_or_intent(@video) }"
         i class="material-icons" play_arrow
       .thumbnails-container

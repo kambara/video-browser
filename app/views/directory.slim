@@ -15,6 +15,8 @@ html
         form method="post" action="#{ @directory.thumbnail_creation_url }"
           button type="submit" name="recursive" value="1"
             | Recursive
+        form method="post" action="/search"
+          input type="text" name="keyword" placeholder="Search"
       - if @directory.root?
         .back TOP
       - else
@@ -33,28 +35,8 @@ html
       ul.entries
         - @result.entries.each do |entry|
           - if entry.class == Directory
-            - dir = entry
-            li.directory
-              a href="#{ dir.url }"
-                span.icon &#x1F4C2;
-                | #{ dir.basename }
-                span.count 
-                  | (
-                  | #{ dir.entries.length }
-                  | )
-                .image-frame
-                .thumbnails-container
-                  - if video = dir.first_video
-                    - video.thumbnail_list.representatives.each do |thumbnail|
-                      img src="#{ thumbnail.url }"
+            == slim :_list_item_directory, :locals => {directory: entry}
           - else
-            - video = entry
-            li
-              a href="#{ video.scenes_page_url }"
-                span.icon &#x1F39E;
-                | #{video.basename}
-                .thumbnails-container
-                  - video.thumbnail_list.representatives.each do |thumbnail|
-                    img src="#{ thumbnail.url }"
+            == slim :_list_item_video, :locals => {video: entry}
       - if (@result.total.to_f / entries_per_page).ceil > 1
         == paginate @result, items_per_page: entries_per_page, renderer: 'haml'

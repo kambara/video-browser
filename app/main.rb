@@ -48,12 +48,21 @@ class Application < Sinatra::Base
     slim :directory
   end
 
+  post '/search' do
+    params[:keyword]
+    directory = Directory.new('.')
+    @entries = directory.search(params[:keyword])
+    slim :search
+  end
+
   get '/video/*' do |path|
+    protected!
     @video = Video.new(path)
     slim :video
   end
 
   get '/video-scenes/*.html' do |path|
+    protected!
     @video = Video.new(path)
     slim :video_scenes
   end

@@ -48,6 +48,19 @@ class Directory < Entry
     nil
   end
 
+  def search(keyword)
+    result = []
+    entries.each do |entry|
+      if entry.basename.to_s.downcase.index(keyword.downcase)
+        result << entry
+      end
+      if entry.class == Directory
+        result = result + entry.search(keyword)
+      end
+    end
+    result
+  end
+
   def thumbnail_creation_url
     "/create-thumbnails/#{URI.encode_www_form_component( @relative_path.to_s )}"
   end
