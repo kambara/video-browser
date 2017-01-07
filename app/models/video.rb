@@ -64,10 +64,10 @@ class Video < Entry
   end
 
   def thumbnail_list
-    ThumbnailList.new(key)
+    ThumbnailList.new(self)
   end
 
   def create_thumbnail(force=false)
-    ThumbnailList.new(key).create(absolute_path, force)
+    ThumbnailList.new(self).create(force)
   end
 end

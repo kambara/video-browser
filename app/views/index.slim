@@ -24,7 +24,7 @@ html
             | TOP
           - else
             | #{ @directory.parent_directory.basename }
-    main
+    main.directory
       h1
         - if @directory.root?
           | #{title}
@@ -52,7 +52,6 @@ html
               a href="#{ video.scenes_page_url }"
                 span.icon &#x1F39E;
                 | #{video.basename}
-                |  - #{ (video.duration/60).round } min
                 .thumbnails-container
                   - video.thumbnail_list.representatives.each do |thumbnail|
                     img src="#{ thumbnail.url }"

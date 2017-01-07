@@ -3,8 +3,8 @@
 ## Pre requirements:
 
 - Ruby
-- [Video Contact Sheet (vcs)](https://p.outlyer.net/vcs/)
-- [VLC Web Browser Plugin (Safari)](http://www.videolan.org/vlc/download-macosx.ja.html)
+- ffmpeg
+- [VLC Web Browser Plugin](http://www.videolan.org/vlc/download-macosx.ja.html)
 
 Install Video Contact Sheet (vcs):
 
