@@ -146,8 +146,32 @@ main.directory {
 }
 
 main.video-scenes {
+	.play-button {
+		margin: 20px $side-padding;
+		display: block;
+		width: 120px;
+		$height: 46px;
+		height: $height;
+		line-height: $height;
+		border-radius: 4px;
+		background-color: rgb(131, 114, 216);
+		color: white;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+		font-size: 120%;
+		text-align: center;
+
+		&:hover {
+			background-color: rgb(96, 75, 202);
+		}
+
+		i {
+			line-height: $height;
+			font-size: 160%;
+		}
+	}
+
 	.thumbnails-container {
-		margin: 24px $side-padding;
+		margin: 20px $side-padding;
 		line-height: 0;
 
 		a {
@@ -215,7 +239,6 @@ ul.sinatra-pagination {
 				color: white;
 				background-color: #70ab82;
 			  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
-
 			}
 		}
 	}

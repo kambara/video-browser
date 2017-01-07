@@ -39,7 +39,7 @@ class Application < Sinatra::Base
   def directory_index(path)
     protected!
     @directory = Directory.new(path)
-    entries = @directory.entries[page * items_per_page, items_per_page]
+    entries = @directory.entries[current_page * entries_per_page, entries_per_page]
     @result = Struct::Result.new(
       @directory.entries.length,
       entries.length,
@@ -107,12 +107,20 @@ class Application < Sinatra::Base
       request.user_agent.downcase.index('android') ? true : false
     end
 
-    def page
+    def video_page_or_intent(video, time=0)
+      if android?
+        video.intent_uri(env['HTTP_HOST'], time)
+      else
+        video.page_url(time)
+      end
+    end
+
+    def current_page
       [params[:page].to_i - 1, 0].max
     end
 
-    def items_per_page
-      settings.items_per_page || 100
+    def entries_per_page
+      settings.entries_per_page || 100
     end
   end
 end
