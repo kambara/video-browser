@@ -33,10 +33,16 @@ class Directory < Entry
   end
 
   def first_video
-    # TODO: Search deep folder
     entries.each do |entry|
       if entry.class == Video
         return entry
+      end
+    end
+    ## Scan deeper folders
+    entries.each do |entry|
+      if entry.class == Directory
+        video = entry.first_video
+        return video if video
       end
     end
     nil
