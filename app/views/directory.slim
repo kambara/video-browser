@@ -57,5 +57,5 @@ html
                 .thumbnails-container
                   - video.thumbnail_list.representatives.each do |thumbnail|
                     img src="#{ thumbnail.url }"
-      - if (@result.total.to_f / @items_per_page).ceil > 1
-        == paginate @result, items_per_page: @items_per_page, renderer: 'haml'
+      - if (@result.total.to_f / items_per_page).ceil > 1
+        == paginate @result, items_per_page: items_per_page, renderer: 'haml'

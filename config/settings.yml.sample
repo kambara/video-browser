@@ -2,5 +2,6 @@ video_root: /path/to/video/root
 descending: false
 title: VIDEO BROWSER
 thumbnail_interval: 30
+items_per_page: 100
 # username: "YOUR NAME"
 # password: "YOUR PASSWORD"

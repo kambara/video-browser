@@ -203,8 +203,12 @@ ul.sinatra-pagination {
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 			font-size: 120%;
 
+			&:hover {
+				background-color: #0ba93b;
+			}
+
 			&.btn-first, &.btn-last {
-				width: 80px;
+				width: 100px;
 			}
 
 			&.btn-primary {

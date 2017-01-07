@@ -39,8 +39,7 @@ class Application < Sinatra::Base
   def directory_index(path)
     protected!
     @directory = Directory.new(path)
-    @items_per_page = 100
-    entries = @directory.entries[page * @items_per_page, @items_per_page]
+    entries = @directory.entries[page * items_per_page, items_per_page]
     @result = Struct::Result.new(
       @directory.entries.length,
       entries.length,
@@ -110,6 +109,10 @@ class Application < Sinatra::Base
 
     def page
       [params[:page].to_i - 1, 0].max
+    end
+
+    def items_per_page
+      settings.items_per_page || 100
     end
   end
 end
