@@ -44,8 +44,9 @@ html
                   | )
                 .image-frame
                 .thumbnails-container
-                  - dir.first_video.thumbnail_list.representatives.each do |thumbnail|
-                    img src="#{ thumbnail.url }"
+                  - if first_video = dir.first_video
+                    - first_video.thumbnail_list.representatives.each do |thumbnail|
+                      img src="#{ thumbnail.url }"
           - else
             - video = entry
             li
