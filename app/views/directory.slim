@@ -23,15 +23,16 @@ html
           - if @directory.parent_directory.root?
             | TOP
           - else
-            | #{ @directory.parent_directory.basename }
+            = @directory.parent_directory.basename
     main.directory
       h1
         - if @directory.root?
-          | #{title}
+          = title
         - else
-          | #{ @directory.basename }
-      ul
-        - @directory.entries.each do |entry|
+          = @directory.basename
+      ul.entries
+        / - @directory.entries.each do |entry|
+        - @result.entries.each do |entry|
           - if entry.class == Directory
             - dir = entry
             li.directory
@@ -56,3 +57,5 @@ html
                 .thumbnails-container
                   - video.thumbnail_list.representatives.each do |thumbnail|
                     img src="#{ thumbnail.url }"
+      - if (@result.total.to_f / @items_per_page).ceil > 1
+        == paginate @result, items_per_page: @items_per_page, renderer: 'haml'

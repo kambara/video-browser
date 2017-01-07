@@ -4,13 +4,18 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/config_file'
 require 'slim'
+require 'haml'
 require 'sass'
 require 'pathname'
 require 'pry-byebug'
+require 'sinatra/paginate'
 require_relative 'models/directory'
 require_relative 'models/video'
 
+Struct.new('Result', :total, :size, :entries)
+
 class Application < Sinatra::Base
+  register Sinatra::Paginate
   register Sinatra::ConfigFile
   config_file Pathname(settings.root) + '../config/settings.yml'
 
@@ -24,15 +29,24 @@ class Application < Sinatra::Base
   end
 
   get '/' do
-    protected!
-    @directory = Directory.new('.')
-    slim :index
+    directory_index('.')
   end
 
   get '/directory/*' do |path|
+    directory_index(path)
+  end
+
+  def directory_index(path)
     protected!
     @directory = Directory.new(path)
-    slim :index
+    @items_per_page = 100
+    entries = @directory.entries[page * @items_per_page, @items_per_page]
+    @result = Struct::Result.new(
+      @directory.entries.length,
+      entries.length,
+      entries
+    )
+    slim :directory
   end
 
   get '/video/*' do |path|
@@ -92,6 +106,10 @@ class Application < Sinatra::Base
 
     def android?
       request.user_agent.downcase.index('android') ? true : false
+    end
+
+    def page
+      [params[:page].to_i - 1, 0].max
     end
   end
 end
