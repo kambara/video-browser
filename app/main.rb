@@ -5,8 +5,7 @@ require 'sinatra/reloader'
 require 'sinatra/config_file'
 require 'slim'
 require 'sass'
-require 'pathname' # FIXME
-require 'fileutils' # FIXME
+require 'pathname'
 require 'pry-byebug'
 require_relative 'models/directory'
 require_relative 'models/video'

@@ -1,4 +1,5 @@
 require 'uri'
+require 'pathname'
 
 class Entry
   def initialize(path)

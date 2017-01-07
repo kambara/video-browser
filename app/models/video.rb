@@ -1,4 +1,5 @@
 require 'digest/md5'
+require 'systemu'
 require_relative 'entry'
 require_relative 'thumbnail'
 
@@ -38,6 +39,20 @@ class Video < Entry
 
   def mimetype
     `file -b --mime-type "#{absolute_path}"`.gsub(/\n/,"")
+  end
+
+  def duration
+    status, stdout, stderr = systemu(%(ffprobe "#{ absolute_path }"))
+    return nil unless status.success?
+    matched = stderr.match(/Duration: ([\d:\.]+),/)
+    return nil unless matched
+    elements = matched[1].split(':')
+    return nil if elements.length != 3
+    time =
+      elements[0].to_i * (60*60) +
+      elements[1].to_i * 60 +
+      elements[2].to_f
+    time
   end
 
   def mp4?

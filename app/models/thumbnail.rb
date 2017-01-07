@@ -1,3 +1,6 @@
+require 'pathname'
+require 'fileutils'
+
 class ThumbnailList
   def initialize(video_key)
     @video_key = video_key
