@@ -17,7 +17,7 @@ class Video < Entry
   end
 
   def scenes_page_url
-    "/video-scenes/#{URI.encode_www_form_component( @relative_path.to_s )}"
+    "/video-scenes/#{URI.encode_www_form_component( @relative_path.to_s )}.html"
   end
 
   def intent_uri(host, time=0)

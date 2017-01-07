@@ -53,7 +53,7 @@ class Application < Sinatra::Base
     slim :video
   end
 
-  get '/video-scenes/*' do |path|
+  get '/video-scenes/*.html' do |path|
     @video = Video.new(path)
     slim :video_scenes
   end
