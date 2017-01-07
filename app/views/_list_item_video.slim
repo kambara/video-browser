@@ -1,0 +1,7 @@
+li
+  a href="#{ video.scenes_page_url }"
+    span.icon &#x1F39E;
+    = video.basename
+    .thumbnails-container
+      - video.thumbnail_list.representatives.each do |thumbnail|
+        img src="#{ thumbnail.url }"
