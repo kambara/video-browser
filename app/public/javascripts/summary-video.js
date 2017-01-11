@@ -34,7 +34,7 @@ class SummaryVideo {
         this.video.one('canplay', () => {
           this.video.css('visibility', 'visible');
         });
-      }, 400);
+      }, 200);
     }
   }
 
