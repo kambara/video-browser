@@ -1,0 +1,12 @@
+li.directory
+  a href="#{ directory.url }"
+    span.icon &#x1F4C2;
+    = directory.basename
+    span.count 
+      | (
+      = directory.entries.length
+      | )
+    .thumbnails-container
+      - if video = directory.first_video
+        - video.thumbnail_list.representatives.each do |thumbnail|
+          img src="#{ thumbnail.url }"

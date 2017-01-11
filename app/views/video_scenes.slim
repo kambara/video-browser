@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title #{@video.basename}
+    link href="/stylesheets/main.css" rel="stylesheet"
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+  body
+    nav.clearfix
+      a.back href="#{ @video.parent_directory.url }"
+        span.arrow &lang;
+        - if @video.parent_directory.root?
+          | TOP
+        - else
+          = @video.parent_directory.basename
+    main.video-scenes
+      h1 
+        = @video.basename
+      a.play-button href="#{ video_page_or_intent(@video) }"
+        i class="material-icons" play_arrow
+      .thumbnails-container
+        - @video.thumbnail_list.to_a.each do |thumbnail|
+          a href="#{ video_page_or_intent(@video, thumbnail.time) }"
+            img src="#{ thumbnail.url }"

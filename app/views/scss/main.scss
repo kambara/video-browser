@@ -1,0 +1,266 @@
+$side-padding: 24px;
+
+@import url('http://fonts.googleapis.com/earlyaccess/notosansjapanese.css');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.clearfix::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+body {
+  margin: 0px;
+  font-family: Roboto, 'Noto Sans Japanese', sans-serif;
+}
+
+nav {
+  padding: 12px $side-padding 12px 0;
+  background-color: #333;
+  color: white;
+
+  .right {
+    float: right;
+
+    form {
+      display: inline-block;
+      margin-left: 8px;
+			$height: 40px;
+
+      button {
+				height: $height;
+				line-height: $height;
+				padding: 0 16px;
+        background-color: #505050;
+        color: #A0A0A0;
+        font-size: 100%;
+        border: none;
+        border-radius: 3px;
+				font-size: 90%;
+
+        &:hover {
+          background-color: #449aec;
+          cursor: pointer;
+					color: white;
+        }
+      }
+
+			input[type="text"] {
+				position: relative;
+				top: 0px;
+				height: $height;
+				width: 140px;
+				padding: 0 10px;
+        border: none;
+        border-radius: 3px;
+				box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset;
+				font-size: 90%;
+
+				&:focus {
+					width: 280px;
+				}
+			}
+    }
+  }
+
+	.arrow {
+		margin-right: 14px;
+	}
+
+  .back {
+    font-size: 110%;
+    margin: 0;
+    padding: 10px 20px;
+    line-height: 100%;
+		visibility: hidden;
+  }
+
+	a.back {
+		margin: 0;
+		color: white;
+		display: inline-block;
+		visibility: visible;
+
+		&:hover {
+	    color: white;
+			background-color: #2d5d9d;
+	  }
+	}
+}
+
+main {
+  margin: 0px;
+}
+
+h1 {
+  margin: 0;
+  padding: 32px $side-padding;
+  line-height: 100%;
+  font-size: 160%;
+  color: white;
+  background-color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #1f6cc5;
+
+  &:hover {
+    background-color: #e0e9fb;
+    color: rgb(33, 48, 157);
+  }
+}
+
+main.directory {
+	margin-bottom: 50px;
+
+	ul.entries {
+		padding: 0px;
+		margin: 0px;
+
+		li {
+			list-style-type: none;
+			line-height: 200%;
+
+			&.directory {
+				font-weight: bold;
+			}
+
+			a {
+				color: #444;
+				font-size: 90%;
+				display: block;
+				padding: 6px $side-padding 10px $side-padding;
+				letter-spacing: 0.03em;
+			}
+
+			span.icon {
+				margin-right: 10px;
+				font-size: 130%;
+				vertical-align: top;
+			}
+
+			span.count {
+				display: inline-block;
+				margin-left: 8px;
+				font-weight: normal;
+				font-size: 70%;
+				vertical-align: top;
+			}
+
+			.thumbnails-container {
+				// height: 100px * 2 + 1px;
+				height: 100px;
+				width: 178px * 6;
+				overflow: hidden;
+				margin-top: 4px;
+				margin-left: $side-padding + 8px;
+				// margin-bottom: 8px;
+				line-height: 0;
+
+				img {
+					margin-bottom: 1px;
+				}
+			}
+		}
+	}
+}
+
+main.video-scenes {
+	.play-button {
+		margin: 20px $side-padding;
+		display: block;
+		width: 120px;
+		$height: 46px;
+		height: $height;
+		line-height: $height;
+		border-radius: 4px;
+		background-color: rgb(131, 114, 216);
+		color: white;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+		font-size: 120%;
+		text-align: center;
+
+		&:hover {
+			background-color: rgb(96, 75, 202);
+		}
+
+		i {
+			line-height: $height;
+			font-size: 160%;
+		}
+	}
+
+	.thumbnails-container {
+		margin: 20px $side-padding;
+		line-height: 0;
+
+		a {
+			img {
+				margin-bottom: 1px;
+			}
+
+			&:hover {
+				img {
+					transform: scale(1.1);
+					box-shadow: 0 0 0 1px white, 0px 6px 22px 1px rgba(0,0,0,0.7);
+				}
+			}
+		}
+	}
+}
+
+main.video {
+	.video-container {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: black;
+
+		.video-js {
+			display: block;
+			margin: 0 auto;
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+
+ul.sinatra-pagination {
+	text-align: center;
+	margin: 40px auto;
+
+  li {
+		float: none !important;
+		margin-right: 3px !important;
+
+		a {
+			display: inline-block;
+			width: 50px;
+			$height: 40px;
+			height: $height;
+			line-height: $height;
+			border-radius: 4px;
+			background-color: #4c4a56;
+			color: white;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+			font-size: 120%;
+
+			&:hover {
+				background-color: #0ba93b;
+			}
+
+			&.btn-first, &.btn-last {
+				width: 100px;
+			}
+
+			&.btn-primary {
+				color: white;
+				background-color: #70ab82;
+			  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+			}
+		}
+	}
+}

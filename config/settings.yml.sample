@@ -1,6 +1,7 @@
 video_root: /path/to/video/root
 descending: false
-title: Video Browser
-image_offset_top: -19
+title: VIDEO BROWSER
+thumbnail_interval: 30
+entries_per_page: 100
 # username: "YOUR NAME"
 # password: "YOUR PASSWORD"

@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title #{ title }
+    link rel="stylesheet" href="/stylesheets/main.css"
+  body
+    nav.clearfix
+      .right
+        form method="post" action="/search"
+          input type="text" name="keyword" value="#{ params['keyword'] }"
+      a.back href="/"
+        span.arrow &lang;
+        | TOP
+    main.directory
+      h1
+        = params['keyword']
+      ul.entries
+        - @entries.each do |entry|
+          - if entry.class == Directory
+            == slim :_list_item_directory, :locals => {directory: entry}
+          - else
+            == slim :_list_item_video, :locals => {video: entry}

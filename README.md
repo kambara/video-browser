@@ -3,13 +3,8 @@
 ## Pre requirements:
 
 - Ruby
-- [Video Contact Sheet (vcs)](https://p.outlyer.net/vcs/)
-- [VLC Web Browser Plugin (Safari)](http://www.videolan.org/vlc/download-macosx.ja.html)
-
-Install Video Contact Sheet (vcs):
-
-    sudo aptitude install imagemagick mplayer ffmpeg
-    sudo dpkg -i vcs.xxx.deb
+- ffmpeg
+- [VLC Web Browser Plugin](http://www.videolan.org/vlc/download-macosx.ja.html)
 
 ## Install
 
@@ -28,17 +23,14 @@ video-browser:
 
 development:
 
-    bundle exec puma --port 8080
+    bundle exec puma -p 8080
 
 production:
 
-    bundle exec puma --config config/puma.rb
+    bundle exec puma --config config/puma.rb -p 10000 -e production
 
 ## Todo
 
-- ファイル名検索
-- ソート方法切り替え
-- 指定時間から再生
-- サムネイル指定で再生
-- サムネイル数変更
-- サムネイルキューイング
+- ソート方法切り替え（ランダム）
+- サムネイル生成キューイング
+- お気に入り時間

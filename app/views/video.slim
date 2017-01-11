@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title #{@video.basename}
+    link rel="stylesheet" href="/stylesheets/main.css"
+    script src="https://code.jquery.com/jquery-3.1.1.min.js"
+  body
+    main.video
+      -if @video.mp4?
+        .video-container
+          video.video-js {
+            id="player"
+            controls="controls"
+            preload="auto"
+            src="#{ @video.file_url }"
+          }
+      - else
+        embed { type="application/x-vlc-plugin"
+                pluginspage="http://www.videolan.org"
+                width="100%"
+                height="100%"
+                style="position: absolute; height: 100%;"
+                id="vlc"
+                target="#{ @video.file_url }" }
+    script src="/javascripts/video.js"
