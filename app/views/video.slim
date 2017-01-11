@@ -8,8 +8,7 @@ html
     main.video
       -if @video.mp4?
         .video-container
-          video.video-js {
-            id="player"
+          video#player {
             controls="controls"
             preload="auto"
             src="#{ @video.file_url }"

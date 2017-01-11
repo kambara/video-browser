@@ -167,13 +167,31 @@ main.directory {
 }
 
 main.video-scenes {
-	.play-button {
+	.top-container {
 		margin: 20px $side-padding;
-		display: block;
+	}
+
+  $video-height: 160px;
+
+	.video-container {
+		height: $video-height;
+		background-color: black;
+		float: left;
+		margin-right: $side-padding;
+
+		video#summary {
+			height: $video-height;
+			background-color: black;
+		}
+	}
+
+	.play-button {
+		display: inline-block;
 		width: 120px;
 		$height: 46px;
 		height: $height;
 		line-height: $height;
+		// margin: ($video-height - $height)/2 $side-padding;
 		border-radius: 4px;
 		background-color: rgb(131, 114, 216);
 		color: white;
@@ -219,7 +237,7 @@ main.video {
 		right: 0;
 		background-color: black;
 
-		.video-js {
+		#player {
 			display: block;
 			margin: 0 auto;
 			height: 100%;
