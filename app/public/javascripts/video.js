@@ -1,39 +1,40 @@
-function main() {
-  if ($('video').length > 0) {
-    new Video();
-  } else if ($('embed').length > 0 && !isChrome()) {
-    new VlcVideo();
-  }
+function main(videoFileUrl) {
+  VideoFactory.create(videoFileUrl);
 }
 
-function isChrome() {
-  var ua = window.navigator.userAgent.toLowerCase();
-  if (ua.indexOf('chrome') >= 0) {
-    return true;
+class VideoFactory {
+  static create(videoFileUrl) {
+    if (videoFileUrl.match(/\.mp4\.link$/)) {
+      return new Video(videoFileUrl, '.video-container');
+    } else if (!this.isChrome()) {
+      return new VlcVideo(videoFileUrl, '.video-container');
+    }
   }
-  return false;
+
+  static isChrome() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    (ua.indexOf('chrome') >= 0)
+  }
 }
 
 class Video {
-  constructor() {
-    this.video = $('#video');
+  constructor(videoFileUrl, container) {
+    this.video = this.createElement(videoFileUrl);
     this.videoElement = this.video.get(0);
-    this.initVideo();
+    $(container).append(this.video);
     $(window).keydown((event) => {
-      //console.log(event.which)
-      let time = 10;
-      if (event.altKey) {
-        time = 60;
-      }
-      switch (event.keyCode) {
-        case 37: // Left
-          this.seekBackward(time);
-          break;
-        case 39: // Right
-          this.seekForward(time);
-          break;
-      }
+      this.onKeyDown(event);
     });
+    this.initVideo();
+  }
+
+  createElement(url) {
+    const video = $('<video />').attr({
+      controls: 'controls',
+      preload: 'auto',
+      src: url
+    });
+    return video;
   }
 
   initVideo() {
@@ -41,6 +42,50 @@ class Video {
     this.video.one('canplay', () => {
       this.seekAndPlay(this.getInitialTime());
     });
+  }
+
+  onKeyDown(event) {
+    // console.log(event.keyCode);
+    switch (event.keyCode) {
+      case 37: // Left
+        this.seekBackward(10);
+        break;
+      case 39: // Right
+        this.seekForward(10);
+        break;
+      case 38: // top
+        this.seekForward(60);
+        break;
+      case 40: // Bottom
+        this.seekBackward(60);
+        break;
+      case 32: // Space
+        this.onSpaceKeyDown();
+        break;
+      case 70: // F
+        this.toggleFullscreen();
+        break;
+    }
+  }
+
+  onSpaceKeyDown() {
+    this.togglePause();
+  }
+
+  togglePause() {
+    if (this.videoElement.paused) {
+      this.videoElement.play();
+    } else {
+      this.videoElement.pause();
+    }
+  }
+
+  toggleFullscreen() {
+    if (document.webkitIsFullScreen) {
+      this.videoElement.webkitExitFullscreen();
+    } else {
+      this.videoElement.webkitRequestFullscreen();
+    }
   }
 
   seekAndPlay(time) {
@@ -57,10 +102,16 @@ class Video {
 
   seekForward(time) {
     this.seekAndPlay(this.getCurrentTime() + time);
+    this.showControls();
   }
 
   seekBackward(time) {
     this.seekAndPlay(this.getCurrentTime() - time);
+    this.showControls();
+  }
+
+  showControls() {
+    this.videoElement.controls = true;
   }
 
   getInitialTime() {
@@ -79,8 +130,8 @@ class Video {
 }
 
 class VlcVideo extends Video {
-  constructor() {
-    super();
+  constructor(videoFileUrl, container) {
+    super(videoFileUrl, container);
   }
 
   initVideo() {
@@ -94,9 +145,39 @@ class VlcVideo extends Video {
     this.seekAndPlay(this.getInitialTime());
   }
 
+  createElement(url) {
+    const video = $('<embed />').attr({
+      target: url,
+      type: 'application/x-vlc-plugin',
+      pluginspage: 'http://www.videolanorg',
+      autostart: false,
+      toolbar: true,
+      branding: false,
+      width: 0,
+      height: 0
+    });
+    return video;
+  }
+
+  getCurrentTime() {
+    return this.videoElement.input.time / 1000;
+  }
+
+  showControls() {
+  }
+
+  onSpaceKeyDown() {
+  }
+
+  toggleFullscreen() {
+    this.videoElement.video.toggleFullscreen();
+    this.videoElement.focus();
+  }
+
   seekAndPlay(time) {
+    if (this.videoElement.input.state != 4) {
+      this.videoElement.playlist.play();
+    }
     this.videoElement.input.time = time * 1000;
   }
 }
-
-main();
