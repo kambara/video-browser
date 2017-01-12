@@ -20,7 +20,7 @@ html
         - if @video.mp4?
           .video-container
             video#summary {
-              src="#{ @video.file_url }"
+              src="#{ @video.file_proxy_url }"
               preload="auto"
             }
         a.play-button href="#{ video_page_or_intent(@video) }"

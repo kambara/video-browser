@@ -11,14 +11,16 @@ html
           video#player {
             controls="controls"
             preload="auto"
-            src="#{ @video.file_url }"
+            src="#{ @video.file_proxy_url }"
           }
       - else
-        embed { type="application/x-vlc-plugin"
-                pluginspage="http://www.videolan.org"
-                width="100%"
-                height="100%"
-                style="position: absolute; height: 100%;"
-                id="vlc"
-                target="#{ @video.file_url }" }
+        embed {
+          type="application/x-vlc-plugin"
+          pluginspage="http://www.videolan.org"
+          width="100%"
+          height="100%"
+          style="position: absolute; height: 100%;"
+          id="vlc"
+          target="#{ @video.file_proxy_url }"
+        }
     script src="/javascripts/video.js"

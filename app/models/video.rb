@@ -5,11 +5,26 @@ require_relative 'thumbnail'
 
 class Video < Entry
   def file_url
-    "/video-file/#{URI.encode_www_form_component( @relative_path.to_s )}"
+    "/video-file/#{ key }"
+  end
+
+  def file_proxy_url
+    "/video-file-proxy/#{URI.encode_www_form_component( @relative_path.to_s )}.link"
+  end
+
+  def make_symlink
+    link = Video.key_to_link(key)
+    return if link.exist?
+    link.parent.mkpath
+    link.make_symlink(absolute_path)
+  end
+
+  def self.key_to_link(video_key)
+    Pathname(Application.settings.root) + '../data/video-links' + video_key
   end
 
   def page_url(time=0)
-    url = "/video/#{URI.encode_www_form_component( @relative_path.to_s )}"
+    url = "/video/#{URI.encode_www_form_component( @relative_path.to_s )}.html"
     if time > 0
       url += "#time=#{ time }"
     end
@@ -38,7 +53,11 @@ class Video < Entry
   end
 
   def mimetype
-    `file -b --mime-type "#{absolute_path}"`.gsub(/\n/,"")
+    Video.mimetype(absolute_path)
+  end
+
+  def self.mimetype(video_path)
+    `file -b --mime-type "#{video_path}"`.gsub(/\n/,"")
   end
 
   def duration
