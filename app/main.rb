@@ -55,7 +55,7 @@ class Application < Sinatra::Base
     slim :search
   end
 
-  get '/video/*' do |path|
+  get '/video/*.html' do |path|
     protected!
     @video = Video.new(path)
     slim :video
@@ -67,13 +67,19 @@ class Application < Sinatra::Base
     slim :video_scenes
   end
 
-  get '/video-file/*' do |path|
+  get '/video-file-proxy/*.link' do |path|
     video = Video.new(path)
+    video.make_symlink
+    redirect video.file_url, 302
+  end
+
+  get '/video-file/:key' do
+    video_file = Video.key_to_link(params[:key])
     send_file(
-      video.absolute_path,
+      video_file,
       disposition: 'inline',
-      type: video.mimetype,
-      file_name: video.basename
+      type: Video.mimetype(video_file),
+      file_name: video_file.basename
     )
   end
 
