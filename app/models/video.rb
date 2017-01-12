@@ -83,6 +83,10 @@ class Video < Entry
     Digest::MD5.new.update(@relative_path.to_s).to_s
   end
 
+  def title
+    basename.to_s.sub(/\.[\w\d]+$/, '')
+  end
+
   def thumbnail_list
     ThumbnailList.new(self)
   end

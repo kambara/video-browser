@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title #{@video.basename}
+    title = @video.title
     link href="/stylesheets/main.css" rel="stylesheet"
     link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
     script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -15,7 +15,7 @@ html
           = @video.parent_directory.basename
     main.video-scenes
       h1 
-        = @video.basename
+        = @video.title
       .top-container.clearfix
         - if @video.mp4?
           .video-container
