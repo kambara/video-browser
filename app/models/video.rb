@@ -5,7 +5,7 @@ require_relative 'thumbnail'
 
 class Video < Entry
   def file_url
-    "/video-file/#{ key }"
+    "/video-file/#{ key }.mp4"
   end
 
   def file_proxy_url
@@ -20,7 +20,8 @@ class Video < Entry
   end
 
   def self.key_to_link(video_key)
-    Pathname(Application.settings.root) + '../data/video-links' + video_key
+    link_name = "#{ video_key }.mp4"
+    Pathname(Application.settings.root) + '../data/video-links' + link_name
   end
 
   def page_url(time=0)

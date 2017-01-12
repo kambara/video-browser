@@ -73,8 +73,8 @@ class Application < Sinatra::Base
     redirect video.file_url, 302
   end
 
-  get '/video-file/:key' do
-    video_file = Video.key_to_link(params[:key])
+  get '/video-file/*.mp4' do |key|
+    video_file = Video.key_to_link(key)
     send_file(
       video_file,
       disposition: 'inline',
