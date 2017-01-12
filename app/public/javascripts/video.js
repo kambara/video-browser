@@ -1,35 +1,9 @@
 function main() {
-  if ($('#player').length > 0) {
-    initVideoPlayer();
-  } else if ($('#vlc').length > 0 && !isChrome()) {
-    initVlcPlayer();
+  if ($('video').length > 0) {
+    new Video();
+  } else if ($('embed').length > 0 && !isChrome()) {
+    new VlcVideo();
   }
-}
-
-function initVideoPlayer() {
-  var player = $('#player');
-  var playerElement = player.get(0);
-  player.css('visibility', 'hidden');
-  player.on('canplay', function() {
-    player.on('seeked', function() {
-      player.css('visibility', 'visible');
-      playerElement.play();
-      player.off('seeked');
-    });
-    playerElement.currentTime = getStartTime();
-    player.off('canplay');
-  });
-}
-
-function initVlcPlayer() {
-  var vlc = $('#vlc').get(0);
-  if (!vlc.input) {
-    setTimeout(function() {
-      location.reload();
-    }, 1000);
-    return;
-  }
-  vlc.input.time = getStartTime() * 1000;
 }
 
 function isChrome() {
@@ -40,18 +14,89 @@ function isChrome() {
   return false;
 }
 
-function getStartTime() {
-  if (location.hash.length <= 1) {
+class Video {
+  constructor() {
+    this.video = $('#video');
+    this.videoElement = this.video.get(0);
+    this.initVideo();
+    $(window).keydown((event) => {
+      //console.log(event.which)
+      let time = 10;
+      if (event.altKey) {
+        time = 60;
+      }
+      switch (event.keyCode) {
+        case 37: // Left
+          this.seekBackward(time);
+          break;
+        case 39: // Right
+          this.seekForward(time);
+          break;
+      }
+    });
+  }
+
+  initVideo() {
+    this.video.css('visibility', 'hidden');
+    this.video.one('canplay', () => {
+      this.seekAndPlay(this.getInitialTime());
+    });
+  }
+
+  seekAndPlay(time) {
+    this.video.one('seeked', () => {
+      this.video.css('visibility', 'visible');
+      this.videoElement.play();
+    });
+    this.videoElement.currentTime = time;
+  }
+
+  getCurrentTime() {
+    return this.videoElement.currentTime;
+  }
+
+  seekForward(time) {
+    this.seekAndPlay(this.getCurrentTime() + time);
+  }
+
+  seekBackward(time) {
+    this.seekAndPlay(this.getCurrentTime() - time);
+  }
+
+  getInitialTime() {
+    if (location.hash.length <= 1) {
+      return 0;
+    }
+    var pair = location.hash.substr(1).split('=');
+    if (pair[0] == 'time') {
+      var time = parseInt(pair[1]);
+      if (!isNaN(time)) {
+        return time;
+      }
+    }
     return 0;
   }
-  var pair = location.hash.substr(1).split('=');
-  if (pair[0] == 'time') {
-    var time = parseInt(pair[1]);
-    if (!isNaN(time)) {
-      return time;
-    }
+}
+
+class VlcVideo extends Video {
+  constructor() {
+    super();
   }
-  return 0;
+
+  initVideo() {
+    // Reload if plugin error happens
+    if (!this.videoElement.input) {
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+      return;
+    }
+    this.seekAndPlay(this.getInitialTime());
+  }
+
+  seekAndPlay(time) {
+    this.videoElement.input.time = time * 1000;
+  }
 }
 
 main();
