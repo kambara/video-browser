@@ -4,23 +4,9 @@ html
     title = @video.title
     link rel="stylesheet" href="/stylesheets/main.css"
     script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    script src="/javascripts/video.js"
   body
     main.video
-      -if @video.mp4?
-        .video-container
-          video#player {
-            controls="controls"
-            preload="auto"
-            src="#{ @video.file_proxy_url }"
-          }
-      - else
-        embed {
-          type="application/x-vlc-plugin"
-          pluginspage="http://www.videolan.org"
-          width="100%"
-          height="100%"
-          style="position: absolute; height: 100%;"
-          id="vlc"
-          target="#{ @video.file_proxy_url }"
-        }
-    script src="/javascripts/video.js"
+      .video-container
+    javascript:
+      main('#{ @video.file_proxy_url }')
