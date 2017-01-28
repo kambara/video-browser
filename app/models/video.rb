@@ -5,7 +5,7 @@ require_relative 'thumbnail'
 
 class Video < Entry
   def file_url
-    "/video-file/#{ key }.mp4"
+    "/video-file/#{ key }"
   end
 
   def file_proxy_url
@@ -15,12 +15,13 @@ class Video < Entry
   def make_symlink
     link = Video.key_to_link(key)
     return if link.exist?
+    return unless absolute_path.exist?
     link.parent.mkpath
     link.make_symlink(absolute_path)
   end
 
   def self.key_to_link(video_key)
-    link_name = "#{ video_key }.mp4"
+    link_name = "#{ video_key }"
     Pathname(Application.settings.root) + '../data/video-links' + link_name
   end
 
@@ -40,7 +41,7 @@ class Video < Entry
     [
       'intent://',
       host,
-      file_url,
+      file_proxy_url,
       '#',
       [
         'Intent',
