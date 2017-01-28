@@ -7,6 +7,12 @@ html
     script src="https://code.jquery.com/jquery-3.1.1.min.js"
   body
     nav.clearfix
+      .right
+        form#random method="get" action="#{ @video.parent_directory.random_video_url }"
+          button type="submit"
+            | Random
+        form method="post" action="/search"
+          input type="text" name="keyword" placeholder="Search"
       a.back href="#{ @video.parent_directory.url }"
         span.arrow &lang;
         - if @video.parent_directory.root?
@@ -30,3 +36,4 @@ html
           a href="#{ video_page_or_intent(@video, thumbnail.time) }"
             img src="#{ thumbnail.url }"
       script src="/javascripts/summary-video.js"
+      script src="/javascripts/random-video.js"

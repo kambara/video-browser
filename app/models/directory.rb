@@ -77,6 +77,26 @@ class Directory < Entry
     end
   end
 
+  def recursive_videos
+    results = []
+    entries.each do |entry|
+      if entry.class == Video
+        results << entry
+      elsif entry.class == Directory
+        results = results.concat(entry.recursive_videos)
+      end
+    end
+    results
+  end
+
+  def random_video_url
+    "/random/#{URI.encode_www_form_component( @relative_path.to_s )}"
+  end
+
+  def random_video
+    recursive_videos.shuffle.first
+  end
+
   def root?
     @relative_path.cleanpath.to_s == '.'
   end

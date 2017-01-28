@@ -3,6 +3,7 @@ html
   head
     title #{ title }
     link rel="stylesheet" href="/stylesheets/main.css"
+    script src="https://code.jquery.com/jquery-3.1.1.min.js"
   body
     nav.clearfix
       .right
@@ -15,6 +16,9 @@ html
         form method="post" action="#{ @directory.thumbnail_creation_url }"
           button type="submit" name="recursive" value="1"
             | Recursive
+        form#random method="get" action="#{ @directory.random_video_url }"
+          button type="submit"
+            | Random
         form method="post" action="/search"
           input type="text" name="keyword" placeholder="Search"
       - if @directory.root?
@@ -40,3 +44,4 @@ html
             == slim :_list_item_video, :locals => {video: entry}
       - if (@result.total.to_f / entries_per_page).ceil > 1
         == paginate @result, items_per_page: entries_per_page, renderer: 'haml'
+    script src="/javascripts/random-video.js"

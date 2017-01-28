@@ -67,6 +67,13 @@ class Application < Sinatra::Base
     slim :video_scenes
   end
 
+  get '/random/*' do |path|
+    protected!
+    directory = Directory.new(path)
+    @video = directory.random_video
+    slim :video_scenes
+  end
+
   get '/video-file-proxy/*.link' do |path|
     video = Video.new(path)
     video.make_symlink
