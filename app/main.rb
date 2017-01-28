@@ -69,8 +69,8 @@ class Application < Sinatra::Base
 
   get '/random/*' do |path|
     protected!
-    directory = Directory.new(path)
-    @video = directory.random_video
+    @random_root_directory = Directory.new(path)
+    @video = @random_root_directory.random_video
     slim :video_scenes
   end
 

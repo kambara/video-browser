@@ -101,6 +101,14 @@ class Directory < Entry
     @relative_path.cleanpath.to_s == '.'
   end
 
+  def name
+    if root?
+      'TOP'
+    else
+      basename
+    end
+  end
+
   def is_video(path)
     if (path.file? &&
         !path.basename.to_s.match(/^\./) &&
