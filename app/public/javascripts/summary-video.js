@@ -1,11 +1,12 @@
 class SummaryVideo {
   constructor() {
-    this.video = $('#summary');
-    this.videoElement = this.video.get(0);
     this.offset = 30;
     this.durationPerScene = 5;
     this.numberOfScenes = 6;
     this.currentIndex = 0;
+    // Video
+    this.video = $('#summary');
+    this.videoElement = this.video.get(0);
     this.video.one('canplay', () => {
       const duration = this.videoElement.duration
       this.interval = (duration - this.offset) / this.numberOfScenes;
@@ -13,6 +14,7 @@ class SummaryVideo {
     });
     this.video.on('timeupdate', () => { this.onTimeUpdate(); });
     this.video.on('click', () => { this.onClick(); });
+    this.videoElement.volume = 0
   }
 
   play() {
