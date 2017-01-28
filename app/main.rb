@@ -75,7 +75,6 @@ class Application < Sinatra::Base
   end
 
   get '/video-file-proxy/*.link' do |path|
-    puts path
     video = Video.new(path)
     video.make_symlink
     redirect video.file_url, 302
