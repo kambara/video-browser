@@ -13,7 +13,7 @@ class VideoFactory {
 
   static isChrome() {
     var ua = window.navigator.userAgent.toLowerCase()
-    ;(ua.indexOf('chrome') >= 0)
+    return (ua.indexOf('chrome') >= 0)
   }
 }
 
