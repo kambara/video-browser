@@ -4,16 +4,16 @@ function main(videoFileUrl) {
 
 class VideoFactory {
   static create(videoFileUrl) {
-    if (videoFileUrl.match(/\.mp4\.link$/)) {
+    if (this.isChrome()) {
       return new Video(videoFileUrl, '.video-container')
-    } else if (!this.isChrome()) {
+    } else {
       return new VlcVideo(videoFileUrl, '.video-container')
     }
   }
 
   static isChrome() {
     var ua = window.navigator.userAgent.toLowerCase()
-    (ua.indexOf('chrome') >= 0)
+    ;(ua.indexOf('chrome') >= 0)
   }
 }
 
@@ -31,7 +31,7 @@ class Video {
   createElement(url) {
     const video = $('<video />').attr({
       controls: 'controls',
-      preload: 'auto',
+      preload: 'none',
       src: url
     })
     return video
@@ -42,6 +42,7 @@ class Video {
     this.video.one('canplay', () => {
       this.seekAndPlay(this.getInitialTime())
     })
+    this.videoElement.load()
   }
 
   onKeyDown(event) {
