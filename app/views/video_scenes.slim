@@ -11,7 +11,7 @@ html
         - if @random_root_directory
           form#random method="get" action="#{ @random_root_directory.random_video_url }"
             button type="submit"
-              | Random
+              | Random [F1]
         form method="post" action="/search"
           input type="text" name="keyword" placeholder="Search"
       - if @random_root_directory

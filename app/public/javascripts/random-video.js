@@ -1,7 +1,8 @@
 class RandomVideo {
   constructor() {
     $(document).keydown((event) => {
-      if (event.key == 'r') {
+      console.log(event.key)
+      if (event.key == 'F1') {
         $('#random').submit()
       }
     })

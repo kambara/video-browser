@@ -18,7 +18,7 @@ html
             | Recursive
         form#random method="get" action="#{ @directory.random_video_url }"
           button type="submit"
-            | Random
+            | Random [F1]
         form method="post" action="/search"
           input type="text" name="keyword" placeholder="Search"
       - if @directory.root?
