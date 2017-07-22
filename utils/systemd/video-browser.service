@@ -1,0 +1,14 @@
+[Unit]
+Description = VideoBrowser
+After = network.target
+
+[Service]
+User = kambara
+WorkingDirectory = /<APP_DIR>
+ExecStart = /usr/local/bin/bundle exec puma --config config/puma.rb -e production
+SyslogIdentifier=video-browser
+Restart = always
+
+[Install]
+WantedBy = multi-user.target
+
